@@ -24,6 +24,7 @@ export default function Initiator() {
                 const {
                     type,
                     values,
+                    nodes,
                     credentials,
                     status,
                     storageType,
@@ -31,6 +32,7 @@ export default function Initiator() {
                     providers,
                     user,
                     settings,
+                    componentSettings,
                 } = event.data.pluginMessage;
                 switch (type) {
                     case MessageFromPluginTypes.SELECTION: {
@@ -40,12 +42,18 @@ export default function Initiator() {
                         } else {
                             dispatch.uiState.resetSelectionValues();
                         }
+                        if (nodes) {
+                            dispatch.uiState.setSelectionId(nodes);
+                        } else {
+                            dispatch.uiState.setSelectionId(undefined);
+                        }
                         break;
                     }
                     case MessageFromPluginTypes.NO_SELECTION: {
                         dispatch.uiState.setDisabled(true);
+                        dispatch.uiState.setSelectionId(undefined);
                         dispatch.uiState.resetSelectionValues();
-                        break;
+                        dispatch.uiState.break;
                     }
                     case MessageFromPluginTypes.REMOTE_COMPONENTS:
                         dispatch.uiState.setLoading(false);

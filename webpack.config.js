@@ -63,6 +63,12 @@ module.exports = (env, argv) => ({
         path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist"
     },
 
+    watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 200,
+        poll: 100
+      },
+
     // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
     plugins: [
         new Dotenv({

@@ -107,6 +107,7 @@ export interface SelectionValue {
     value?: string;
     tokenName?: string;
     description?: string;
+    componentState?: ComponentState;
 }
 
 export type PullStyleTypes = {
@@ -114,3 +115,10 @@ export type PullStyleTypes = {
     colorStyles?: boolean;
     effectStyles?: boolean;
 };
+
+export type ComponentState =  {
+    role?: "parent" | "child";
+    key?: string;
+    variant?: string;
+    size?: string;
+}

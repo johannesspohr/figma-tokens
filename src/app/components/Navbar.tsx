@@ -63,6 +63,7 @@ const Navbar = () => {
             <div>
                 <TabButton first name="tokens" label="Tokens" />
                 <TabButton name="json" label="JSON" />
+                <TabButton name="component" label="Component" />
                 <TabButton name="inspector" label="Inspect" />
                 <TabButton name="syncsettings" label="Sync" />
                 <TabButton name="settings" label="Settings" />

@@ -25,6 +25,7 @@ import {getTokenData, updateNodes, setTokensOnDocument, goToNode, saveStorageTyp
 import {MessageToPluginTypes} from '../../types/messages';
 import {StorageProviderType} from '../../types/api';
 import compareProvidersWithStored from './compareProviders';
+import {pullComponentProperties} from './pullComponentProperties';
 
 figma.showUI(__html__, {
     width: 400,
@@ -98,8 +99,9 @@ figma.ui.onmessage = async (msg) => {
                 updatePluginData(figma.currentPage.selection, msg.values);
                 sendPluginValues(
                     figma.currentPage.selection,
-                    updateNodes(figma.currentPage.selection, msg.tokens, msg.settings)
+                    msg.tokens && updateNodes(figma.currentPage.selection, msg.tokens, msg.settings)
                 );
+                pullComponentProperties();
             } catch (e) {
                 console.error(e);
             }

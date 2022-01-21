@@ -39,6 +39,7 @@ export function fetchAllPluginData(node) {
         return node ? pluginData[0][1] : pluginData[0][1];
     }
     if (pluginData.length > 0) {
+        console.log('current data', pluginData);
         return Object.fromEntries(pluginData);
     }
     return null;
@@ -123,6 +124,7 @@ export function updatePluginData(nodes, values) {
     nodes.map((node) => {
         const currentValuesOnNode = fetchAllPluginData(node);
         const newValuesOnNode = Object.assign(currentValuesOnNode || {}, values);
+        console.log('new data', values, newValuesOnNode);
         Object.entries(newValuesOnNode).forEach(([key, value]) => {
             switch (value) {
                 case 'delete':

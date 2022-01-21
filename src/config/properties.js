@@ -34,4 +34,5 @@ export default {
     value: {},
     tokenName: {},
     description: {},
+    componentState: {},
 };

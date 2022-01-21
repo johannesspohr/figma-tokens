@@ -8,7 +8,7 @@ import {SelectionValue, TokenType} from 'Types/tokens';
 
 import {RootModel} from '.';
 
-type TabNames = 'start' | 'tokens' | 'json' | 'inspector' | 'syncsettings' | 'settings';
+type TabNames = 'start' | 'tokens' | 'json' | 'inspector' | 'syncsettings' | 'settings' | 'component';
 
 type DisplayType = 'GRID' | 'LIST';
 
@@ -68,6 +68,7 @@ interface UIState {
     showPushDialog: string | false;
     showEmptyGroups: boolean;
     collapsed: boolean;
+    selectionId?: string;
 }
 
 const defaultConfirmState = {
@@ -106,6 +107,7 @@ export const uiState = createModel<RootModel>()({
         showPushDialog: false,
         showEmptyGroups: true,
         collapsed: false,
+        selectionId: undefined,
     } as UIState,
     reducers: {
         setShowPushDialog: (state, data: string | false) => {
@@ -170,6 +172,12 @@ export const uiState = createModel<RootModel>()({
             return {
                 ...state,
                 selectionValues: data,
+            };
+        },
+        setSelectionId: (state, data: string | undefined) => {
+            return {
+                ...state,
+                selectionId: data,
             };
         },
         resetSelectionValues: (state) => {

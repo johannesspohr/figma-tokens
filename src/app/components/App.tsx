@@ -16,6 +16,7 @@ import {RootState} from '../store';
 import ConfirmDialog from './ConfirmDialog';
 import PushDialog from './PushDialog';
 import WindowResizer from './WindowResizer';
+import {ComponentEditor} from './ComponentEditor';
 
 const App = () => {
     const activeTab = useSelector((state: RootState) => state.uiState.activeTab);
@@ -30,6 +31,7 @@ const App = () => {
                     {activeTab === 'start' && <StartScreen />}
                     <Tokens isActive={activeTab === 'tokens'} />
                     {activeTab === 'json' && <JSONEditor />}
+                    {activeTab === 'component' && <ComponentEditor />}
                     {activeTab === 'inspector' && <Inspector />}
                     {activeTab === 'syncsettings' && <SyncSettings />}
                     {activeTab === 'settings' && <Settings />}

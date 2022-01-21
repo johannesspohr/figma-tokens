@@ -13,12 +13,19 @@ import parseJson from '@/utils/parseJson';
 import {RootModel} from '.';
 import updateTokensOnSources from '../updateSources';
 import * as pjs from '../../../../package.json';
+import {string} from 'mathjs';
 
 const defaultTokens: TokenProps = {
     version: pjs.plugin_version,
     updatedAt: new Date().toString(),
     values: defaultJSON,
 };
+
+export interface ComponentPart {
+    parts: Record<string, ComponentPart>;
+    variants: Record<string, Record<string, string>>;
+    baseStyles: Record<string, string>;
+}
 
 type TokenInput = {
     name: string;
@@ -35,6 +42,7 @@ type DeleteTokenInput = {parent: string; path: string};
 
 interface TokenState {
     tokens: TokenGroup;
+    components: Record<string, ComponentPart>;
     lastSyncedState: string;
     importedTokens: {
         newTokens: SingleTokenObject[];
@@ -50,6 +58,7 @@ export const tokenState = createModel<RootModel>()({
         tokens: {
             global: [],
         },
+        components: {},
         lastSyncedState: '',
         importedTokens: {
             newTokens: [],
@@ -144,6 +153,12 @@ export const tokenState = createModel<RootModel>()({
                 tokens: values,
                 activeTokenSet: Array.isArray(data.values) ? 'global' : Object.keys(data.values)[0],
                 usedTokenSet: Array.isArray(data.values) ? ['global'] : [Object.keys(data.values)[0]],
+            };
+        },
+        setComponents: (state, data: {values: Record<string, ComponentPart>; shouldUpdate: boolean}) => {
+            return {
+                ...state,
+                components: data.values,
             };
         },
         setJSONData(state, payload) {
@@ -407,6 +422,13 @@ export const tokenState = createModel<RootModel>()({
             } catch (e) {
                 console.error('Error updating document', e);
             }
+        },
+        updateComponents: (state, data: {values: Record<string, ComponentPart>; shouldUpdate: boolean}) => {
+            if (!isEqual(data.values, state.components)) {
+                dispatch.tokens.setComponents(data);
+                dispatch.tokens.updateDocument({shouldUpdateNodes: false});
+            }
+            return state;
         },
     }),
 });
